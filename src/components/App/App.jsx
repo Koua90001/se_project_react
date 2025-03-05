@@ -51,6 +51,7 @@ useEffect(() => {
         <Footer />
       </div>
       <ModalWithForm 
+      isOpen={activeModal === 'add-garment'} 
       title="New garment" 
       buttonText="Add garment"
       activeModal={activeModal}
