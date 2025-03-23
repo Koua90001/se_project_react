@@ -1,6 +1,10 @@
-import "./Header.css"
+//import { useState } from "react";
+import ToggleSwitch from "../ToggleSwitch/ToggleSwitch";
+
+import "./Header.css";
 import logo from "../../assets/logo.svg";
 import avatar from "../../assets/avatar.png";
+
 
 function Header({handleAddClick, weatherData}) {
     const currentDate = new Date().toLocaleString('default', { 
@@ -12,6 +16,7 @@ function Header({handleAddClick, weatherData}) {
     <header className="header">
         <img className="header__logo" src={logo} alt="Logo"/>
         <p className="header__date.and.location">{currentDate}, {weatherData.city}</p>
+        <ToggleSwitch />
         <button 
         onClick={handleAddClick}
         type="button"
