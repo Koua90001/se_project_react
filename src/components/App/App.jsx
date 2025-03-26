@@ -12,6 +12,8 @@ import Footer from "../Footer/Footer";
 import CurrentTemperatureUnitContext from "../contexts/CurrentTemperatureunit";
 import AddItemModal from "../AddItemModal/AddItemModal";
 import { defaultClothingItems } from "../../utils/constants";
+import { getItems, addItem, deleteItem } from "../../utils/api";
+
 
 function App() {
   const [weatherData, setWeatherData] = useState({
@@ -40,6 +42,18 @@ function App() {
     setActiveModal("add-garment");
   };
 
+  const handleDeleteClick = (card) => {
+    deleteItem(card._id)
+    .then((res) => {
+      const updatedItems = clothingItems.filter((item) => {
+        return item._id !== card._id;
+      });
+      setClothingItems(updatedItems);
+      closeActiveModal();
+    })
+    .catch(console.error());
+  };
+
   const closeActiveModal = () => {
     setActiveModal("");
   };
@@ -47,7 +61,7 @@ function App() {
   const handleAddItemModalSubmit = ({ name, imageUrl, weather}) => {
     setClothingItems((prevItems)=>[{ name, link: imageUrl, weather},
       ...prevItems] );
-    closeAllModals();
+    closeActiveModal();
   };
 
 
@@ -59,6 +73,23 @@ function App() {
       })
       .catch(console.error);
   }, []);
+
+  useEffect(() => {
+    getItems()
+    .then((data) => {
+      console.log(data);
+    })
+    .catch(console.error);
+  }, []);
+
+  useEffect(() => {
+    addItem()
+    .then((data) => {
+      console.log(data);
+    })
+    .catch(console.error);
+  }, []);
+
 
   return (
     <CurrentTemperatureUnitContext.Provider 
@@ -73,12 +104,17 @@ function App() {
             element={
             <Main 
           weatherData={weatherData} 
-          handleCardClick={handleCardClick} 
+          onCardClick={handleCardClick} 
           clothingItems={clothingItems} />} 
           />
             <Route 
             path="/profile" 
-            element={<p>PROFILE</p>} />
+            element={<Profile 
+              onCardClick={handleCardClick}
+              clothingItems={clothingItems}
+              weatherData={weatherData}
+             />} 
+             />
           </Routes>
 
           <Footer />
@@ -93,10 +129,13 @@ function App() {
           activeModal={activeModal}
           card={selectedCard}
           onClose={closeActiveModal}
+          handleDeleteClick={handleDeleteClick}
         />
       </div>
     </CurrentTemperatureUnitContext.Provider>
+    
   );
 }
+
 
 export default App;

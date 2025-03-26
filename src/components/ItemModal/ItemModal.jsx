@@ -1,6 +1,12 @@
 import "./ItemModal.css";
+import { useContext } from "react";
 
-function ItemModal({ activeModal, onClose, card }) {
+function ItemModal({ activeModal, onClose, card, handleDeleteClick }) {
+
+  const onDelete = () => {
+    handleDeleteClick(card)
+  }
+
   return (
     <div className={`modal ${activeModal === "preview" && "modal_opened"}`}>
       <div className="modal__content  modal__content_type_image">
@@ -14,6 +20,12 @@ function ItemModal({ activeModal, onClose, card }) {
           <h2 className="item-modal__caption">{card.name}</h2>
           <p className="item-modal__weather">Weather:{card.weather}</p>
         </div>
+        <button 
+        className="item-modal__delete-btn"
+        type="button"
+        onClick={onDelete}>
+          Delete item
+        </button>
       </div>
     </div>
   );

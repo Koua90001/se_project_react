@@ -1,0 +1,36 @@
+.clothes-section__text-container {
+    display: flex;
+    gap: 16px;
+    font-family: "CabinetGrotesk-Medium";
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 24.8px;
+    text-align: left;
+    color: black;
+    margin-top: 20px;
+}
+
+.clothes-section__items {
+    margin: 0;
+    margin-top: 16px;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    gap: 19px;
+    list-style-type: none;
+    margin-top: 35px;
+    padding: 0;
+}
+
+.clothes-section__your-items {
+    margin: 0;
+}
+
+.clothes-section__add-btn {
+    border: none;
+    opacity: 0.6;
+}
+
+.clothes-section__add-btn:hover {
+    cursor: pointer;
+  }
