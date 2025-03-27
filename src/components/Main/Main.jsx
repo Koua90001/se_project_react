@@ -5,7 +5,7 @@ import CurrentTemperatureUnitContext from "../../contexts/CurrentTemperatureunit
 import { useContext } from "react";
 import { defaultClothingItems } from "../../utils/constants"
 
-function Main({ weatherData, handleCardClick, clothingItems }) {
+function Main({ weatherData, onCardClick, clothingItems }) {
   const { currentTemperatureUnit } = useContext(CurrentTemperatureUnitContext);
   return (
     <main className="main">
@@ -22,9 +22,9 @@ function Main({ weatherData, handleCardClick, clothingItems }) {
             .map((item) => {
               return (
                 <ItemCard
-                  key={item._id}
+                  key={`${item._id}-${Math.random()}`}
                   item={item}
-                  onCardClick={handleCardClick}
+                  onCardClick={onCardClick}
                 />
               );
             })}

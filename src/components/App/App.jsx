@@ -59,8 +59,10 @@ function App() {
   };
 
   const handleAddItemModalSubmit = ({ name, imageUrl, weather}) => {
-    setClothingItems((prevItems)=>[{ name, link: imageUrl, weather},
-      ...prevItems] );
+    addItem({ name, imageUrl, weather })
+    .then((data) => {
+      setClothingItems((prev) => [data, ...prev]);
+    });
     closeActiveModal();
   };
 
@@ -81,15 +83,6 @@ function App() {
     })
     .catch(console.error);
   }, []);
-
-  useEffect(() => {
-    addItem()
-    .then((data) => {
-      console.log(data);
-    })
-    .catch(console.error);
-  }, []);
-
 
   return (
     <CurrentTemperatureUnitContext.Provider 
