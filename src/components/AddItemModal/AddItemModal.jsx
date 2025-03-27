@@ -1,4 +1,4 @@
-import "./AddItemModal"
+import "./AddItemModal.css"
 import ModalWithForm from "../ModalWithForm/ModalWithForm";
 import { useState } from "react";
 
