@@ -3,7 +3,7 @@ import SideBar from "../SideBar/SideBar";
 import ClothesSection from "../ClothesSection/ClothesSection";
 import { defaultClothingItems } from "../../utils/constants";
 
-function Profile({onCardClick, clothingItems, weatherData}) {
+function Profile({onCardClick, clothingItems, weatherData, handleAddClick}) {
 
   return (
     <div className="profile">
@@ -14,6 +14,7 @@ function Profile({onCardClick, clothingItems, weatherData}) {
             <ClothesSection 
             clothingItems={clothingItems}
              onCardClick={onCardClick}
+             handleAddClick={handleAddClick}
              weatherData={weatherData}
               />
         </section>

@@ -34,3 +34,18 @@
 .clothes-section__add-btn:hover {
     cursor: pointer;
   }
+
+
+@media screen and (max-width: 600px) {
+    .clothes {
+      width: 100%;
+    }
+  
+    .clothes-section__text-container {
+      padding-bottom: 16px;
+    }
+  
+    .clothes-section__items {
+      justify-content: center;
+    }
+  }

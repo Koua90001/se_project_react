@@ -1,13 +1,13 @@
 import "./ClothesSection.css";
 import ItemCard from "../ItemCard/ItemCard";
 
-function ClothesSection({onCardClick, clothingItems, handleCardClick, weatherData}) {
+function ClothesSection({onCardClick, clothingItems, handleAddClick, weatherData}) {
   return (
     <div className="clothes-section">
         <div className="clothes-section__text-container">
         <p className="clothes-section__your-items">Your items</p>
         <button 
-        onClick={onCardClick}
+        onClick={handleAddClick}
         type="button"
         className="clothes-section__add-btn"
         >

@@ -12,7 +12,7 @@ visibility: hidden;
 }
 
 .modal_opened {
-    visibility: visible;
+ visibility: visible;
 }
 
 .modal__close {
@@ -47,12 +47,15 @@ visibility: hidden;
     box-sizing: border-box;
     width: 100%;
     margin-bottom: 8px;
+   
 }
+
+
 
 .modal__form {
     display: flex;
     flex-direction: column;
-    width: 100%;
+   
 }
 
 .modal__input {

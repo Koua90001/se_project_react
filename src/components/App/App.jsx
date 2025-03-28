@@ -79,10 +79,12 @@ function App() {
   useEffect(() => {
     getItems()
     .then((data) => {
-      console.log(data);
+      setClothingItems(data);
     })
     .catch(console.error);
   }, []);
+
+  console.log({selectedCard})
 
   return (
     <CurrentTemperatureUnitContext.Provider 
@@ -104,6 +106,7 @@ function App() {
             path="/profile" 
             element={<Profile 
               onCardClick={handleCardClick}
+              handleAddClick={handleAddClick}
               clothingItems={clothingItems}
               weatherData={weatherData}
              />} 
