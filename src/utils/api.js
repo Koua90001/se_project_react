@@ -1,26 +1,20 @@
+
+import { checkResponse } from "../utils/utils";
 const baseUrl = "http://localhost:3001";
 
+
 function getItems() {
-  return fetch(`${baseUrl}/items`).then((res) => {
-    return res.ok ? res.json() : Promise.reject(`Error: ${res.status}`);
-  });
+  return fetch(`${baseUrl}/items`).then(checkResponse);
 }
 
-function addItem(item) {
+function addItem({name, weather, imageUrl}) {
   return fetch(`${baseUrl}/items`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify(item),
-  })
-    .then((res) => res.json())
-    .then((data) => ({
-      _id: data._id,
-      name: data.name,
-      imageUrl: data.imageUrl,
-      weather: data.weather,
-    }));
+    body: JSON.stringify({name, weather, imageUrl}),
+  }).then(checkResponse);
 }
 
 function deleteItem(card) {
@@ -29,9 +23,7 @@ function deleteItem(card) {
     headers: {
       "Content-Type": "application/json",
     },
-  }).then((res) => {
-    return res.ok ? res.json() : Promise.reject(`Error: ${res.status}`);
-  });
+  }).then(checkResponse);
 }
 
 export { getItems, addItem, deleteItem };

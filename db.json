@@ -59,12 +59,6 @@
       "name": "Skirt",
       "weather": "hot",
       "imageUrl": "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/wtwr-project/Skirt.png?etag=27a6bea7e1b63218820d615876fa31d1"
-    },
-    {
-      "name": "gfdhgh",
-      "imageUrl": "https://unsplash.com/photos/a-painting-of-a-red-white-and-blue-object-LUz8F-LoRlc",
-      "weather": "warm",
-      "_id": 13
     }
   ]
 }
