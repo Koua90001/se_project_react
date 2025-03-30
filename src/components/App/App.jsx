@@ -77,14 +77,14 @@ function App() {
     setActiveModal("");
   };
 
-  const handleAddItemModalSubmit = (({ name, imageUrl, weather}) => {
+  const handleAddItemModalSubmit = ({ name, imageUrl, weather}) => {
     addItem({ name, imageUrl, weather })
     .then((data) => {
       setClothingItems((prev) => [data, ...prev]);
     closeActiveModal();
   })
     .catch(console.error);
-}, []);
+};
 
 
   useEffect(() => {
@@ -104,7 +104,7 @@ function App() {
     .catch(console.error);
   }, []);
 
-  console.log({selectedCard})
+  //console.log({selectedCard})
 
   return (
     <CurrentTemperatureUnitContext.Provider 

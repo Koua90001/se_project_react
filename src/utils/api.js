@@ -17,13 +17,15 @@ function addItem({name, weather, imageUrl}) {
   }).then(checkResponse);
 }
 
-function deleteItem(card) {
-  return fetch(`${baseUrl}/items/${card}`, {
+function deleteItem(id) {
+  return fetch(`${baseUrl}/items/${id}`, {
     method: "DELETE",
     headers: {
       "Content-Type": "application/json",
     },
-  }).then(checkResponse);
+  })
+  .then(checkResponse)
+  .catch((error) => console.error('Error deleting item:', error));
 }
 
 export { getItems, addItem, deleteItem };

@@ -9,9 +9,6 @@ export default function AddItemModal({
   onAddItemModalSubmit,
 }) {
   const [name, setName] = useState("");
-
-  const { values, handleChange, setValues } = useForm({});
-
   const [imageUrl, setImageUrl] = useState("");
   const [weather, setWeather] = useState("");
 
