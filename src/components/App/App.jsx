@@ -28,11 +28,10 @@ function App() {
   const [activeModal, setActiveModal] = useState("");
   const [selectedCard, setSelectedCard] = useState({});
   const [currentTemperatureUnit, setCurrentTemperatureUnit] = useState("F");
- 
 
   const handleToggleSwitchChange = () => {
-    setCurrentTemperatureUnit(currentTemperatureUnit === "F"? "C":"F");
-  }
+    setCurrentTemperatureUnit(currentTemperatureUnit === "F" ? "C" : "F");
+  };
 
   const handleCardClick = (card) => {
     setActiveModal("preview");
@@ -45,47 +44,46 @@ function App() {
 
   const handleDeleteClick = (card) => {
     deleteItem(card._id)
-    .then((res) => {
-      const updatedItems = clothingItems.filter((item) => {
-        return item._id !== card._id;
-      });
-      setClothingItems(updatedItems);
-      closeActiveModal();
-    })
-    .catch(console.error);
+      .then((res) => {
+        const updatedItems = clothingItems.filter((item) => {
+          return item._id !== card._id;
+        });
+        setClothingItems(updatedItems);
+        closeActiveModal();
+      })
+      .catch(console.error);
   };
 
-
   useEffect(() => {
-
     if (!activeModal) return; // stop the effect not to add the listener if there is no active modal
 
-    const handleEscClose = (e) => {  // define the function inside useEffect not to lose the reference on rerendering
+    const handleEscClose = (e) => {
+      // define the function inside useEffect not to lose the reference on rerendering
       if (e.key === "Escape") {
-        handleCloseModal();
+        closeActiveModal();
       }
     };
 
     document.addEventListener("keydown", handleEscClose);
 
-    return () => {  // don't forget to add a clean up function for removing the listener
+    return () => {
+      // don't forget to add a clean up function for removing the listener
       document.removeEventListener("keydown", handleEscClose);
     };
-  }, [activeModal])
+  }, [activeModal]);
 
   const closeActiveModal = () => {
     setActiveModal("");
   };
 
-  const handleAddItemModalSubmit = ({ name, imageUrl, weather}) => {
+  const handleAddItemModalSubmit = ({ name, imageUrl, weather }) => {
     addItem({ name, imageUrl, weather })
-    .then((data) => {
-      setClothingItems((prev) => [data, ...prev]);
-    closeActiveModal();
-  })
-    .catch(console.error);
-};
-
+      .then((data) => {
+        setClothingItems((prev) => [data, ...prev]);
+        closeActiveModal();
+      })
+      .catch(console.error);
+  };
 
   useEffect(() => {
     getWeather(coordinates, APIkey)
@@ -98,48 +96,51 @@ function App() {
 
   useEffect(() => {
     getItems()
-    .then((data) => {
-      setClothingItems(data);
-    })
-    .catch(console.error);
+      .then((data) => {
+        setClothingItems(data);
+      })
+      .catch(console.error);
   }, []);
 
   //console.log({selectedCard})
 
   return (
-    <CurrentTemperatureUnitContext.Provider 
-    value= {{currentTemperatureUnit, handleToggleSwitchChange}}
+    <CurrentTemperatureUnitContext.Provider
+      value={{ currentTemperatureUnit, handleToggleSwitchChange }}
     >
       <div className="page">
         <div className="page__content">
           <Header handleAddClick={handleAddClick} weatherData={weatherData} />
           <Routes>
-            <Route 
-            path="/" 
-            element={
-            <Main 
-          weatherData={weatherData} 
-          onCardClick={handleCardClick} 
-          clothingItems={clothingItems} />} 
-          />
-            <Route 
-            path="/profile" 
-            element={<Profile 
-              onCardClick={handleCardClick}
-              handleAddClick={handleAddClick}
-              clothingItems={clothingItems}
-              weatherData={weatherData}
-             />} 
-             />
+            <Route
+              path="/"
+              element={
+                <Main
+                  weatherData={weatherData}
+                  onCardClick={handleCardClick}
+                  clothingItems={clothingItems}
+                />
+              }
+            />
+            <Route
+              path="/profile"
+              element={
+                <Profile
+                  onCardClick={handleCardClick}
+                  handleAddClick={handleAddClick}
+                  clothingItems={clothingItems}
+                  weatherData={weatherData}
+                />
+              }
+            />
           </Routes>
 
           <Footer />
         </div>
-        <AddItemModal 
-        onClose={closeActiveModal}
-        isOpen={activeModal === "add-garment"}
-        onAddItemModalSubmit={handleAddItemModalSubmit}
-
+        <AddItemModal
+          onClose={closeActiveModal}
+          isOpen={activeModal === "add-garment"}
+          onAddItemModalSubmit={handleAddItemModalSubmit}
         />
         <ItemModal
           activeModal={activeModal}
@@ -149,9 +150,7 @@ function App() {
         />
       </div>
     </CurrentTemperatureUnitContext.Provider>
-    
   );
 }
-
 
 export default App;
