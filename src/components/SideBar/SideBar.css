@@ -1,0 +1,50 @@
+.sidebar {
+    padding-right: 116px;
+    width: 229px;
+    height: 56px;
+    margin:0;
+    gap: 16px;
+}
+
+.sidebar__user-info{ 
+    display:flex; 
+    align-items: center;
+    padding-bottom:24px; 
+    }
+    .sidebar__button{ 
+      display:flex; 
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    .sidebar__edit-button{ 
+      border:none; 
+      font-family:"Cabinet Grotesk", sans-serif; 
+      font-weight:700; 
+      font-size:20px; 
+      line-height: 24.8px; 
+    
+    }
+    .sidebar__logout-button{ 
+      border:none; 
+      font-family:"Cabinet Grotesk", sans-serif; 
+      font-weight:700; 
+      font-size:20px; 
+      line-height: 24.8px; 
+      padding-top:8px; 
+    }
+
+.sidebar__avatar {
+    margin-right: 16px;
+    width:40px; 
+    height: 40px; 
+    border:1px solid rgba(0,0,0,0.5); 
+    border-radius:50%; 
+}
+
+.sidebar__username {
+    font-size: 20px;
+    line-height: 24.8px;
+    font-weight: 700;
+    margin:0;
+    
+}

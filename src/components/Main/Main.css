@@ -1,0 +1,24 @@
+
+.main {
+    padding: 0 40px;
+    font-weight: bold;
+    font-size: 20px;
+  }
+  
+  .main__text {
+    margin: 40px 0 34px;
+  }
+
+
+
+
+.cards__list {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    gap: 21px;
+    grid-template-columns: repeat(auto-fit, 325px);
+    justify-content: center;
+}

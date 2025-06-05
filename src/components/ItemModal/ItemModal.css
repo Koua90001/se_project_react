@@ -1,0 +1,83 @@
+.item-modal {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0 0 0 / 0.3);
+    backdrop-filter: blur(4px);
+    z-index: 1;
+  }
+  
+   
+  .item-modal__close{
+    background: url("../../assets/close.svg") no-repeat center;
+    position: absolute;
+    top: 40px;
+    right: 40px;
+    opacity: 0.6;
+    border: 2px;
+    padding: 2px;
+    box-sizing: border-box;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    color: white;
+  }
+
+  .item-modal__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    border-radius: 16px;
+  }
+
+  .item-modal__footer {
+    padding: 20px 32px 32px;
+  }
+
+  .item-modal__caption {
+    width: 36px;
+    height: 24px;
+    top: 624px;
+    left: 503px;
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 24px;
+    text-wrap: nowrap;
+  }
+
+  .item-modal__weather {
+    width: 115px;
+    height: 24px;
+    top: 660px;
+    left: 503px;
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 24px;
+  }
+
+
+.item-modal__delete-btn {
+  position: absolute;
+  font-family: "CabinetGrotesk-Medium";
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 24px;
+  text-align: left;
+  color: #ff4d00;
+  background-color: white;
+  border: none;
+  display: flex;
+  padding: 0;
+  right: 32px;
+  bottom: 140px;
+}
+
+.item-modal__delete-btn:hover {
+  cursor: pointer;
+}
