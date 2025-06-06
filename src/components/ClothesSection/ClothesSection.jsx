@@ -6,9 +6,10 @@ const ClothesSection = ({
   onCardClick,
   clothingItems,
   handleCardClick,
-  onCardLike,
+  handleCardLike,
   
 }) => {
+
   return (
     <div className="clothes-section">
       <div className="clothes-section__items">
@@ -24,7 +25,7 @@ const ClothesSection = ({
               key={item._id}
               item={item}
               onCardClick={onCardClick}
-              onCardLike={onCardLike}
+              onCardLike={handleCardLike}
             />
           );
         })}

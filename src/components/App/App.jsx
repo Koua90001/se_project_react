@@ -39,7 +39,7 @@ function App() {
     isDay: false,
   });
 
-  const [clothingItems, setClothingItems] = useState(defaultClothingItems);
+  const [clothingItems, setClothingItems] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [activeModal, setActiveModal] = useState("");
   const [selectedCard, setSelectedCard] = useState({});
@@ -52,8 +52,9 @@ function App() {
     _id: "",
     avatar: "",
   });
-
+  const [error, setError] = useState(null); 
   const navigate = useNavigate();
+  const token = getToken();
 
   const handleToggleSwitchChange = () => {
     setCurrentTemperatureUnit(currentTemperatureUnit === "F" ? "C" : "F");
@@ -103,6 +104,7 @@ function App() {
   };
 
   const handleDeleteItem = () => {
+    console.log("selectedCard:", selectedCard);
     setIsLoading(true);
     const token = getToken();
     deleteItem(selectedCard, token)
@@ -122,8 +124,8 @@ function App() {
   };
 
 
-  const handleDeleteClick = (selectedCard) => {
-    deleteItem(selectedCard._id)
+  const handleDeleteClick = (token) => {
+    deleteItem(selectedCard, token)
       .then((res) => {
         const updatedItems = clothingItems.filter((item) => {
           return item._id !== selectedCard._id;
@@ -157,10 +159,13 @@ function App() {
   useEffect(() => {
     getItems()
       .then((data) => {
+        setClothingItems(data);
         console.log(data);
       })
       .catch(console.error);
   }, []);
+
+
 
   const handleEditProfile = ({ name, avatar }) => {
     const token = getToken();

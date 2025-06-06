@@ -7,7 +7,7 @@ function ItemModal({ activeModal, onClose, selectedCard, handleDeleteClick }) {
   const currentUser  = useContext(CurrentUserContext);
   const isOwn = selectedCard.owner === currentUser._id; 
   const onDelete = () => {
-    handleDeleteClick(card)
+    handleDeleteClick()
   }
 
   return (
@@ -20,7 +20,11 @@ function ItemModal({ activeModal, onClose, selectedCard, handleDeleteClick }) {
         >
           <img src={closeBtn} alt="close button" />
         </button>
-        <img src={selectedCard.link} alt="Modal__image" className="item-modal__image" />
+        <img 
+        src={selectedCard.link || selectedCard.imageUrl} 
+        alt="Modal__image" 
+        className="item-modal__image" 
+        />
         <div className="item-modal__footer">
           <h2 className="item-modal__caption">{selectedCard.name}</h2>
           <p className="item-modal__weather">Weather:{selectedCard.weather}</p>
