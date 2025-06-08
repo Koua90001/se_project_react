@@ -19,7 +19,7 @@ import CurrentTemperatureUnitContext from "../../contexts/CurrentTemperatureunit
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 import AddItemModal from "../AddItemModal/AddItemModal";
 import { defaultClothingItems } from "../../utils/constants";
-import {   
+import {
   getItems,
   addItem,
   deleteItem,
@@ -28,7 +28,8 @@ import {
   checkToken,
   updateUserProfile,
   addCardLike,
-  removeCardLike, } from "../../utils/api";
+  removeCardLike,
+} from "../../utils/api";
 
 function App() {
   const [weatherData, setWeatherData] = useState({
@@ -52,7 +53,7 @@ function App() {
     _id: "",
     avatar: "",
   });
-  const [error, setError] = useState(null); 
+  const [error, setError] = useState(null);
   const navigate = useNavigate();
   const token = getToken();
 
@@ -68,11 +69,11 @@ function App() {
   const handleAddClick = () => {
     setActiveModal("add-garment");
   };
- 
+
   const editProfileClick = () => {
     setActiveModal("edit-profile");
   };
-  
+
   const onSignUp = (data) => {
     setIsLoading(true);
     return signup(data)
@@ -105,27 +106,49 @@ function App() {
 
   const handleDeleteItem = () => {
     console.log("selectedCard:", selectedCard);
-    setIsLoading(true);
+
     const token = getToken();
+    if (!token) {
+      console.error("No authentication token found");
+      setError("Please log in to delete items");
+      return;
+    }
+
+    if (!selectedCard || !selectedCard._id) {
+      console.error("No valid item selected for deletion");
+      setError("No item selected for deletion");
+      return;
+    }
+
+    console.log("Token:", token);
+    console.log("Deleting item with ID:", selectedCard._id);
+
+    setIsLoading(true);
+
     deleteItem(selectedCard, token)
-      .then(() => {
-        const updatedItems = clothingItems.filter(
-          (item) => item._id !== selectedCard._id
+      .then((response) => {
+        console.log("Delete response:", response);
+
+        setClothingItems((prevItems) =>
+          prevItems.filter((item) => item._id !== selectedCard._id)
         );
-        setClothingItems(updatedItems);
+
+        setSelectedCard({});
         closeActiveModal();
+
+        console.log("Item deleted successfully");
       })
       .catch((err) => {
-        console.log(err);
+        console.error("Error deleting item:", err);
+        setError(err.message || "Failed to delete item. Please try again.");
       })
       .finally(() => {
         setIsLoading(false);
       });
   };
 
-
-  const handleDeleteClick = (token) => {
-    deleteItem(selectedCard, token)
+  const handleDeleteClick = () => {
+    deleteItem(selectedCard)
       .then((res) => {
         const updatedItems = clothingItems.filter((item) => {
           return item._id !== selectedCard._id;
@@ -141,6 +164,7 @@ function App() {
   };
 
   const handleAddItemModalSubmit = ({ name, imageUrl, weather }) => {
+    const token = getToken();
     addItem({ name, imageUrl, weather }).then((data) => {
       setClothingItems((prev) => [data, ...prev]);
     });
@@ -164,8 +188,6 @@ function App() {
       })
       .catch(console.error);
   }, []);
-
-
 
   const handleEditProfile = ({ name, avatar }) => {
     const token = getToken();
@@ -296,15 +318,15 @@ function App() {
                   path="/profile"
                   element={
                     <ProtectedRoute isLoggedIn={isLoggedIn}>
-                    <Profile
-                      editProfileClick={editProfileClick}
-                      onCardClick={handleCardClick}
-                      clothingItems={clothingItems}
-                      handleCardLike={handleCardLike}
-                      currentUser={currentUser}
-                      handleAddClick={handleAddClick}
-                      logout={logout}
-                    />
+                      <Profile
+                        editProfileClick={editProfileClick}
+                        onCardClick={handleCardClick}
+                        clothingItems={clothingItems}
+                        handleCardLike={handleCardLike}
+                        currentUser={currentUser}
+                        handleAddClick={handleAddClick}
+                        logout={logout}
+                      />
                     </ProtectedRoute>
                   }
                 />
@@ -325,7 +347,7 @@ function App() {
               onClick={handleCardClick}
               handleDeleteClick={handleDeleteClick}
             />
-               <RegisterModal
+            <RegisterModal
               isOpen={activeModal === "Sign Up"}
               onClose={closeActiveModal}
               handleRegistration={handleRegistration}

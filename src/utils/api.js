@@ -21,12 +21,13 @@ function addItem(item, token) {
     body: JSON.stringify(item),
   });
 }
-function deleteItem(item, token) {
+function deleteItem(item) {
+
   return request(`${baseUrl}/items/${item._id}`, {
     method: "DELETE",
     headers: {
       "Content-Type": "application/json",
-      authorization: `Bearer ${token}`,
+      authorization: `Bearer ${localStorage.getItem('jwt')}`,
     },
   });
 }
@@ -62,7 +63,7 @@ function updateUserProfile(token, userData) {
     method: "PATCH",
     headers: {
       "Content-Type": "application/json",
-      authorization: `Bearer ${token}`,
+      authorization: `Bearer ${localStorage.getItem('jwt')}`,
     },
     body: JSON.stringify(userData),
   });
@@ -82,7 +83,7 @@ function removeCardLike(id, token) {
     method: "DELETE",
     headers: {
       "Content-Type": "application/json",
-      authorization: `Bearer ${token}`,
+      authorization: `Bearer ${localStorage.getItem('jwt')}`,
     },
   });
 }
