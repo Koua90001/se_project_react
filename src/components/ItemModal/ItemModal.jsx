@@ -16,7 +16,7 @@ function ItemModal({ activeModal, onClose, selectedCard, handleDeleteClick }) {
         <button
           onClick={onClose}
           type="button"
-          className="item-modal__close"
+          className="modal__close"
         >
           <img src={closeBtn} alt="close button" />
         </button>

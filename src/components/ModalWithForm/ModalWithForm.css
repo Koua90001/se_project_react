@@ -19,7 +19,6 @@ visibility: hidden;
     position: absolute;
     top: 20px;
     right: 28px;
-    background: url("/src/assets/close.svg") no-repeat center/16px 16px;
     opacity: 0.6;
     border: 0;
     padding: 2px;
@@ -129,4 +128,13 @@ visibility: hidden;
   
   .modal__submit_inactive {
     background-color: rgba(0, 0, 0, 0.3);
+  }
+
+  .modal__save-button{ 
+    color: white; 
+    width:128px; 
+    height: 36px; 
+    border-radius:4px;
+    background-color: #000; 
+   
   }

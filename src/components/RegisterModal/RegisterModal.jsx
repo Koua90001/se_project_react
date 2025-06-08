@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import ModalWithForm from "../ModalWithForm/ModalWithForm";
 
 const RegisterModal = ({
-  handleCloseClick,
+  onClose,
   isOpen,
   signup,
   handleLoginClick,
@@ -31,7 +31,7 @@ const RegisterModal = ({
       title="Sign Up"
       onSubmit={handleSubmit}
       isOpen={isOpen}
-      handleCloseClick={handleCloseClick}
+      onClose={onClose}
       handleLoginClick={handleLoginClick}
     >
       <label className="modal__label">

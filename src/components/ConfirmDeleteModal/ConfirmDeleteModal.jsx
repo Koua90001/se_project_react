@@ -2,7 +2,7 @@ import React from "react";
 import closeBtn from "../../assets/closeBtn.svg";
 
 const ConfirmDeleteModal = ({
-  handleCloseClick,
+  onClose,
   isOpen,
   onConfirmDeleteClick,
 }) => {
@@ -10,7 +10,7 @@ const ConfirmDeleteModal = ({
     <div className={`modal modal__delete ${isOpen ? "modal_opened" : ""}`}>
       <div className="modal_content modal_content_type_delete">
         <button
-          onClick={handleCloseClick}
+          onClick={onClose}
           type="button"
           className="modal__close"
         >
@@ -29,7 +29,7 @@ const ConfirmDeleteModal = ({
             Yes, delete item
           </button>
           <button
-            onClick={handleCloseClick}
+            onClick={onClose}
             type="button"
             className="modal__delete-cancel"
           >

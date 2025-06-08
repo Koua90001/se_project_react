@@ -12,21 +12,7 @@
     z-index: 1;
   }
   
-   
-  .item-modal__close{
-    background: url("../../assets/close.svg") no-repeat center;
-    position: absolute;
-    top: 40px;
-    right: 40px;
-    opacity: 0.6;
-    border: 2px;
-    padding: 2px;
-    box-sizing: border-box;
-    width: 20px;
-    height: 20px;
-    cursor: pointer;
-    color: white;
-  }
+
 
   .item-modal__image {
     width: 100%;
