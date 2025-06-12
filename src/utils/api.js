@@ -16,7 +16,7 @@ function addItem(item, token) {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      authorization: `Bearer ${token}`,
+      authorization: `Bearer ${localStorage.getItem('jwt')}`,
     },
     body: JSON.stringify(item),
   });
@@ -54,7 +54,7 @@ function checkToken(token) {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
-      authorization: `Bearer ${token}`,
+      authorization: `Bearer ${localStorage.getItem('jwt')}`,
     },
   });
 }
@@ -73,7 +73,7 @@ function addCardLike(id, token, userId) {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
-      authorization: `Bearer ${token}`,
+      authorization: `Bearer ${localStorage.getItem('jwt')}`,
     },
     body: JSON.stringify({ userId: userId })
   });

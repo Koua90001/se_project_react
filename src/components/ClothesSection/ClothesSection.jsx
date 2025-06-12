@@ -7,9 +7,7 @@ const ClothesSection = ({
   clothingItems,
   handleCardClick,
   handleCardLike,
-  
 }) => {
-
   return (
     <div className="clothes-section">
       <div className="clothes-section__items">
@@ -19,16 +17,18 @@ const ClothesSection = ({
         </button>
       </div>
       <ul className="clothes-section__list ">
-        {clothingItems.map((item) => {
-          return (
-            <ItemCard
-              key={item._id}
-              item={item}
-              onCardClick={onCardClick}
-              onCardLike={handleCardLike}
-            />
-          );
-        })}
+        {clothingItems
+          .filter((item) => item && item._id)
+          .map((item) => {
+            return (
+              <ItemCard
+                key={item._id}
+                item={item}
+                onCardClick={onCardClick}
+                onCardLike={handleCardLike}
+              />
+            );
+          })}
       </ul>
     </div>
   );

@@ -1,4 +1,4 @@
-import "./AddItemModal.css"
+//import "./AddItemModal.css"
 import ModalWithForm from "../ModalWithForm/ModalWithForm";
 import { useState } from "react";
 
@@ -116,6 +116,9 @@ const handleNameChange = (e) => {
               Cold
             </label>
           </fieldset>
+          <button type="submit" className="modal__add-btn">
+        Add garment
+      </button>
         </ModalWithForm>
 )
 }

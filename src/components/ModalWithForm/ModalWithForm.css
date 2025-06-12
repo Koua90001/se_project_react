@@ -17,8 +17,8 @@ visibility: hidden;
 
 .modal__close {
     position: absolute;
-    top: 20px;
-    right: 28px;
+    top: 30px;
+    right: 30px;
     opacity: 0.6;
     border: 0;
     padding: 2px;
@@ -128,6 +128,21 @@ visibility: hidden;
   
   .modal__submit_inactive {
     background-color: rgba(0, 0, 0, 0.3);
+  }
+
+  .modal__add-btn {
+    gap: 8px;
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    border-radius: 4px;
+    max-width: 124px;
+    width: 100%;
+    height: 36px;
+    background: rgba(0, 0, 0, 0.3);
+    font-family: "Cabinet Grotesk", sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 20px;
+    color: rgba(255, 255, 255, 1);
   }
 
   .modal__save-button{ 
