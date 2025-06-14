@@ -166,6 +166,7 @@ function App() {
   const handleAddItemModalSubmit = ({ name, imageUrl, weather }) => {
     const token = getToken();
     addItem({ name, imageUrl, weather }).then((data) => {
+      console.log('API response:', data)
       setClothingItems((prev) => [data, ...prev]);
     });
     closeActiveModal();
@@ -268,6 +269,7 @@ function App() {
 
   const handleCardLike = ({ id, isLiked }) => {
     const token = getToken();
+    console.log("Token:", token);
     !isLiked
       ? addCardLike(id, token, currentUser._id)
           .then((updatedCard) => {
