@@ -15,7 +15,7 @@ function Header({
   handleLoginClick,
   isLoggedIn,
 }) {
-  const currentUser = useContext(CurrentUserContext);
+  const { currentUser } = useContext(CurrentUserContext);
   const currentDate = new Date().toLocaleString("default", {
     month: "long",
     day: "numeric",
@@ -24,7 +24,7 @@ function Header({
   return (
     <header className="header">
       <Link to="/">
-        <img className="header__logo" src={logo} alt="Logo" />
+        <img className="header__logo" src={logo} alt="header logo" />
       </Link>
       <p className="header__date.and.location">
         {currentDate}, {weatherData.city}
@@ -34,7 +34,7 @@ function Header({
         <button
           onClick={handleAddClick}
           type="button"
-          className="header__add clothes-btn"
+          className="header__add.clothes-btn"
         >
           + Add clothes
         </button>
@@ -51,11 +51,11 @@ function Header({
       )}
       {isLoggedIn && (
         <Link to="/profile" className="header__link">
-          <div className="header__user container">
-            <p className="header__username">Terrence Tegegne</p>
+          <div className="header__user-container">
+            <p className="header__username">{currentUser.name}</p>
             <img
               src={avatar}
-              alt="Terrence Tegegne"
+              alt={currentUser?.name}
               className="header__avatar"
             />
           </div>

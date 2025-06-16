@@ -5,8 +5,11 @@ export function request(url, options) {
 }
 export function checkResponse(res) {
   if (res.ok) {
-    return res.ok ? res.json() : Promise.reject(`Error: ${res.status}`);
+    return res.json();
   }
+  return res.json().then((err) => {
+    throw err; // preserve server error details
+  });
 }
 function getItems() {
   return request(`${baseUrl}/items`);
@@ -16,18 +19,18 @@ function addItem(item, token) {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      authorization: `Bearer ${localStorage.getItem('jwt')}`,
+      authorization: `Bearer ${token || localStorage.getItem('jwt')}`,
     },
     body: JSON.stringify(item),
   });
 }
-function deleteItem(item) {
+function deleteItem(item, token) {
 
   return request(`${baseUrl}/items/${item._id}`, {
     method: "DELETE",
     headers: {
       "Content-Type": "application/json",
-      authorization: `Bearer ${localStorage.getItem('jwt')}`,
+      authorization: `Bearer ${token}`,
     },
   });
 }
@@ -54,7 +57,7 @@ function checkToken(token) {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
-      authorization: `Bearer ${localStorage.getItem('jwt')}`,
+      authorization: `Bearer ${token || localStorage.getItem('jwt')}`,
     },
   });
 }
@@ -63,7 +66,7 @@ function updateUserProfile(token, userData) {
     method: "PATCH",
     headers: {
       "Content-Type": "application/json",
-      authorization: `Bearer ${localStorage.getItem('jwt')}`,
+      authorization: `Bearer ${token || localStorage.getItem('jwt')}`,
     },
     body: JSON.stringify(userData),
   });
@@ -73,7 +76,7 @@ function addCardLike(id, token, userId) {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
-      authorization: `Bearer ${localStorage.getItem('jwt')}`,
+      authorization: `Bearer ${token || localStorage.getItem('jwt')}`,
     },
     body: JSON.stringify({ userId: userId })
   });
@@ -83,7 +86,7 @@ function removeCardLike(id, token) {
     method: "DELETE",
     headers: {
       "Content-Type": "application/json",
-      authorization: `Bearer ${localStorage.getItem('jwt')}`,
+      authorization: `Bearer ${token || localStorage.getItem('jwt')}`,
     },
   });
 }

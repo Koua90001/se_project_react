@@ -53,9 +53,10 @@ function App() {
     _id: "",
     avatar: "",
   });
+  
   const [error, setError] = useState(null);
   const navigate = useNavigate();
-  const token = getToken();
+  const token = getToken() 
 
   const handleToggleSwitchChange = () => {
     setCurrentTemperatureUnit(currentTemperatureUnit === "F" ? "C" : "F");
@@ -148,7 +149,8 @@ function App() {
   };
 
   const handleDeleteClick = () => {
-    deleteItem(selectedCard)
+    const token = localStorage.getItem("jwt");
+    deleteItem(selectedCard, token)
       .then((res) => {
         const updatedItems = clothingItems.filter((item) => {
           return item._id !== selectedCard._id;
@@ -156,7 +158,7 @@ function App() {
         setClothingItems(updatedItems);
         closeActiveModal();
       })
-      .catch(console.error());
+      .catch(console.error);
   };
 
   const closeActiveModal = () => {
@@ -165,9 +167,8 @@ function App() {
 
   const handleAddItemModalSubmit = ({ name, imageUrl, weather }) => {
     const token = getToken();
-    addItem({ name, imageUrl, weather }).then((data) => {
-      console.log('API response:', data)
-      setClothingItems((prev) => [data, ...prev]);
+    addItem({ name, imageUrl, weather }, token).then((data) => {
+      setClothingItems((prev) => [data.likedItem, ...prev]);
     });
     closeActiveModal();
   };
@@ -184,7 +185,7 @@ function App() {
   useEffect(() => {
     getItems()
       .then((data) => {
-        setClothingItems(data);
+        setClothingItems(data.reverse());
         console.log(data);
       })
       .catch(console.error);
@@ -205,7 +206,7 @@ function App() {
       setError("Passwords do not match.");
       return;
     }
-    signup(name, password, email)
+    signup({ name, password, email, avatar: ""})
       .then(() => {
         navigate("/profile");
         closeActiveModal();
@@ -221,7 +222,7 @@ function App() {
     signin(email, password).then((data) => {
       if (data.token) {
         setToken(data.token);
-        checkToken(data.token)
+        checkToken(data.token) 
           .then((data) => {
             setIsLoggedIn(true);
             setCurrentUser(data);
@@ -265,21 +266,27 @@ function App() {
         setIsLoggedIn(false);
         setError("Session expired.  Please log in again.");
       });
-  }, []);
+  }, [isLoggedIn]);
 
   const handleCardLike = ({ id, isLiked }) => {
     const token = getToken();
-    console.log("Token:", token);
+    if (!token) {
+      console.warn("User must be logged in to like");
+      return;
+    }
     !isLiked
       ? addCardLike(id, token, currentUser._id)
-          .then((updatedCard) => {
+          .then((res) => {
+            const updatedCard = res?.likedItem;
+            if (!updatedCard) return;
             setClothingItems((cards) =>
               cards.map((item) => (item._id === id ? updatedCard : item))
             );
           })
           .catch((err) => console.log(err))
       : removeCardLike(id, token)
-          .then((updatedCard) => {
+          .then((res) => {
+             const updatedCard = res.likedItem 
             setClothingItems((cards) =>
               cards.map((item) => (item._id === id ? updatedCard : item))
             );
@@ -313,6 +320,8 @@ function App() {
                       onCardClick={handleCardClick}
                       clothingItems={clothingItems}
                       handleCardLike={handleCardLike}
+                      handleAddClick={handleAddClick}
+                      isLoggedIn={isLoggedIn}
                     />
                   }
                 />
@@ -328,6 +337,7 @@ function App() {
                         currentUser={currentUser}
                         handleAddClick={handleAddClick}
                         logout={logout}
+                        isLoggedIn={isLoggedIn}
                       />
                     </ProtectedRoute>
                   }

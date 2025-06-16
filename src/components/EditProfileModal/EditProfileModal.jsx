@@ -5,8 +5,8 @@ import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 const EditProfileModal = ({ onClose, isOpen, handleEditProfile }) => {
   const { currentUser } = useContext(CurrentUserContext);
   const [userData, setUserData] = useState({
-    name: currentUser.name || "",
-    avatar: currentUser.avatar || "",
+    name: "",
+    avatar: "",
   });
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -43,7 +43,7 @@ const EditProfileModal = ({ onClose, isOpen, handleEditProfile }) => {
         id="edit-profile-name"
         className="modal__input"
         placeholder="name"
-        value={userData.name}
+        value={userData.name ?? ""}
         onChange={handleChange}
       />
       </label>
@@ -55,7 +55,7 @@ const EditProfileModal = ({ onClose, isOpen, handleEditProfile }) => {
           name="avatar"
           type="url"
           placeholder="avatar"
-          value={userData.avatar}
+          value={userData.avatar ?? ""}
           onChange={handleChange}
         />
       </label>
