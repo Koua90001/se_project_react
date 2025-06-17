@@ -2,7 +2,7 @@ import React from "react";
 import "./SideBar.css";
 import { useContext } from "react";
 import avatar from "../../assets/avatar.png";
-import { CurrentUserContext } from '../../contexts/CurrentUserContext';
+import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 
 function SideBar({ editProfileClick, logout }) {
   const { currentUser } = useContext(CurrentUserContext);
@@ -11,9 +11,9 @@ function SideBar({ editProfileClick, logout }) {
     <div className="sidebar">
       <div className="sidebar__user-info">
         <img
-           src={avatar}
-           alt={currentUser?.name}
-           className="sidebar__avatar"
+          src={currentUser?.avatar || avatar}
+          alt={currentUser?.name || "User avatar"}
+          className="header__avatar"
         />
         <p className="sidebar__username">{currentUser.name}</p>
       </div>

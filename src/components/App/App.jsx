@@ -12,24 +12,21 @@ import ConfirmDeleteModal from "../ConfirmDeleteModal/ConfirmDeleteModal";
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 import RegisterModal from "../RegisterModal/RegisterModal";
 import LoginModal from "../LoginModal/LoginModal";
-import { setToken, getToken, removeToken } from "../../utils/token";
+import { setToken, getToken, removeToken, checkToken } from "../../utils/token";
 import { getWeather, filterWeatherData } from "../../utils/weatherApi";
 import Footer from "../Footer/Footer";
 import CurrentTemperatureUnitContext from "../../contexts/CurrentTemperatureunit";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 import AddItemModal from "../AddItemModal/AddItemModal";
-import { defaultClothingItems } from "../../utils/constants";
 import {
   getItems,
   addItem,
   deleteItem,
-  signup,
-  signin,
-  checkToken,
   updateUserProfile,
   addCardLike,
   removeCardLike,
 } from "../../utils/api";
+import { signup, signin } from "../../utils/auth";
 
 function App() {
   const [weatherData, setWeatherData] = useState({
@@ -79,7 +76,9 @@ function App() {
     setIsLoading(true);
     return signup(data)
       .then((currentUser) => {
-        return signin(data).then((token) => {
+        return signin(data).then((response) => {
+          const token = response.token;
+          setToken(token);
           return checkToken(token).then((user) => {
             setCurrentUser(user);
             closeActiveModal();
@@ -167,10 +166,17 @@ function App() {
 
   const handleAddItemModalSubmit = ({ name, imageUrl, weather }) => {
     const token = getToken();
-    addItem({ name, imageUrl, weather }, token).then((data) => {
-      setClothingItems((prev) => [data.likedItem, ...prev]);
-    });
-    closeActiveModal();
+    addItem({ name, imageUrl, weather }, token)
+      .then((response) => {
+        const newItem = response.data;
+  
+        if (!newItem || !newItem._id) throw new Error("Invalid item returned");
+        setClothingItems((prev) => [newItem, ...prev]);
+        closeActiveModal();
+      })
+      .catch((err) => {
+        console.error("Failed to add item:", err);
+      });
   };
 
   useEffect(() => {
@@ -183,43 +189,37 @@ function App() {
   }, []);
 
   useEffect(() => {
-    getItems()
+    const token = getToken();
+    if (!token) return;
+  
+    getItems(token)
       .then((data) => {
         setClothingItems(data.reverse());
-        console.log(data);
       })
-      .catch(console.error);
-  }, []);
+      .catch((err) => {
+        console.error("Error fetching items:", err);
+        setError("Unable to fetch items. Please log in.");
+      });
+  }, [isLoggedIn]);
 
   const handleEditProfile = ({ name, avatar }) => {
     const token = getToken();
     updateUserProfile(token, { name, avatar })
-      .then((userData) => {
-        setCurrentUser(userData);
+      .then((res) => {
+        const updatedUser = res.user || res; 
+        setCurrentUser(updatedUser);
         closeActiveModal();
       })
-      .catch((err) => setError(err.message || "name and avatar required."));
+      .catch((err) => setError(err.message || "Name and avatar required."));
   };
 
-  const handleRegistration = ({ name, email, password, confirmPassword }) => {
-    if (password !== confirmPassword) {
-      setError("Passwords do not match.");
-      return;
-    }
-    signup({ name, password, email, avatar: ""})
-      .then(() => {
-        navigate("/profile");
-        closeActiveModal();
-      })
-      .catch((err) => setError(err.message || "Registration failed"));
-  };
 
   const handleLogin = ({ email, password }) => {
     if (!email || !password) {
       setError("email and password are required.");
       return;
     }
-    signin(email, password).then((data) => {
+    signin({ email, password }).then((data) => {
       if (data.token) {
         setToken(data.token);
         checkToken(data.token) 
@@ -274,24 +274,22 @@ function App() {
       console.warn("User must be logged in to like");
       return;
     }
-    !isLiked
-      ? addCardLike(id, token, currentUser._id)
-          .then((res) => {
-            const updatedCard = res?.likedItem;
-            if (!updatedCard) return;
-            setClothingItems((cards) =>
-              cards.map((item) => (item._id === id ? updatedCard : item))
-            );
-          })
-          .catch((err) => console.log(err))
-      : removeCardLike(id, token)
-          .then((res) => {
-             const updatedCard = res.likedItem 
-            setClothingItems((cards) =>
-              cards.map((item) => (item._id === id ? updatedCard : item))
-            );
-          })
-          .catch((err) => console.log(err));
+  
+    const action = isLiked ? removeCardLike : addCardLike;
+  
+    action(id, token, currentUser._id)
+      .then((res) => {
+        console.log("Like response:", res);
+        const updatedCard = res?.likedItem || res; // fallback in case backend returns raw card
+        if (!updatedCard || !updatedCard._id) {
+          console.warn("Invalid card returned");
+          return;
+        }
+        setClothingItems((cards) =>
+          cards.map((item) => (item._id === id ? updatedCard : item))
+        );
+      })
+      .catch((err) => console.log("Like error:", err));
   };
 
   return (
@@ -350,7 +348,7 @@ function App() {
               onClose={closeActiveModal}
               isOpen={activeModal === "add-garment"}
               onAddItemModalSubmit={handleAddItemModalSubmit}
-              onAddItem={onAddItem}
+              
             />
             <ItemModal
               activeModal={activeModal}
@@ -362,7 +360,6 @@ function App() {
             <RegisterModal
               isOpen={activeModal === "Sign Up"}
               onClose={closeActiveModal}
-              handleRegistration={handleRegistration}
               signup={onSignUp}
               handleLoginClick={handleLoginClick}
             />

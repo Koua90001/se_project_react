@@ -6,8 +6,6 @@ import logo from "../../assets/logo.svg";
 import avatar from "../../assets/avatar.png";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 
-
-
 function Header({
   handleAddClick,
   weatherData,
@@ -34,7 +32,7 @@ function Header({
         <button
           onClick={handleAddClick}
           type="button"
-          className="header__add.clothes-btn"
+          className="header__add-clothes-btn"
         >
           + Add clothes
         </button>
@@ -54,8 +52,8 @@ function Header({
           <div className="header__user-container">
             <p className="header__username">{currentUser.name}</p>
             <img
-              src={avatar}
-              alt={currentUser?.name}
+              src={currentUser?.avatar || avatar}
+              alt={currentUser?.name || "User avatar"}
               className="header__avatar"
             />
           </div>

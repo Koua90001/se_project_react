@@ -8,11 +8,18 @@ export function checkResponse(res) {
     return res.json();
   }
   return res.json().then((err) => {
-    throw err; // preserve server error details
+    throw err; 
   });
 }
-function getItems() {
-  return request(`${baseUrl}/items`);
+function getItems(token = localStorage.getItem("jwt")) {
+  return request(`${baseUrl}/items`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      authorization: `Bearer ${token}`,
+    },
+  });
+
 }
 function addItem(item, token) {
   return request(`${baseUrl}/items`, {
@@ -34,33 +41,7 @@ function deleteItem(item, token) {
     },
   });
 }
-function signup(data) {
-  return request(`${baseUrl}/signup`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(data),
-  });
-}
-function signin(email, password) {
-  return request(`${baseUrl}/signin`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ email, password }),
-  });
-}
-function checkToken(token) {
-  return request(`${baseUrl}/users/me`, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      authorization: `Bearer ${token || localStorage.getItem('jwt')}`,
-    },
-  });
-}
+
 function updateUserProfile(token, userData) {
   return request(`${baseUrl}/users/me`, {
     method: "PATCH",
@@ -94,9 +75,6 @@ export {
   getItems,
   addItem,
   deleteItem,
-  signup,
-  signin,
-  checkToken,
   updateUserProfile,
   addCardLike,
   removeCardLike,
