@@ -5,12 +5,11 @@ import likeButton from "../../assets/day/likeButton.png";
 import darkLikeButton from "../../assets/day/darkLikeButton.png";
 
 function ItemCard({ item, onCardClick, onCardLike, isLoggedIn}) {
-  const currentUser = useContext(CurrentUserContext);
+  const { currentUser = {} } = useContext(CurrentUserContext);
 
   const isLiked = isLoggedIn
   ? item.likes?.some((userId) => userId === currentUser._id)
   : false;
-  
   const handleLike = () => {
     if (!isLoggedIn) return;
     onCardLike({ id: item._id, isLiked });

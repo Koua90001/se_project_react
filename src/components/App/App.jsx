@@ -81,6 +81,7 @@ function App() {
           setToken(token);
           return checkToken(token).then((user) => {
             setCurrentUser(user);
+            setIsLoggedIn(true);
             closeActiveModal();
           });
         });
@@ -190,8 +191,6 @@ function App() {
 
   useEffect(() => {
     const token = getToken();
-    if (!token) return;
-  
     getItems(token)
       .then((data) => {
         setClothingItems(data.reverse());
@@ -280,7 +279,7 @@ function App() {
     action(id, token, currentUser._id)
       .then((res) => {
         console.log("Like response:", res);
-        const updatedCard = res?.likedItem || res; // fallback in case backend returns raw card
+        const updatedCard = res?.likedItem || res; 
         if (!updatedCard || !updatedCard._id) {
           console.warn("Invalid card returned");
           return;
