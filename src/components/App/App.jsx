@@ -199,7 +199,7 @@ function App() {
         console.error("Error fetching items:", err);
         setError("Unable to fetch items. Please log in.");
       });
-  }, [isLoggedIn]);
+  }, []);
 
   const handleEditProfile = ({ name, avatar }) => {
     const token = getToken();

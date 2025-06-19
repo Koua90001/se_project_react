@@ -21,6 +21,7 @@ function getItems(token = localStorage.getItem("jwt")) {
   });
 
 }
+
 function addItem(item, token) {
   return request(`${baseUrl}/items`, {
     method: "POST",
